@@ -16,6 +16,7 @@ namespace BackEnd.Controllers
     {
         public HttpResponseMessage Get(int id)
         {
+
             try
             {
                 bool withTime = true;
@@ -24,9 +25,11 @@ namespace BackEnd.Controllers
                 string checkLastVisitTime = @"
                 select top 1 visits.visit_time
                 from visit_status
-                left join statuses ON (visit_status.status_id = statuses.status_id)
-                left join visits ON (visits.visit_id = visit_status.visit_id)
+                left join statuses ON (visit_status.status_id = statuses.status_id)                
+				left join visits ON (visits.visit_id = visit_status.visit_id)		
+				left join personal_specializations ON (personal_specializations.personal_specialization_code = visits.personal_specialization_code)
                 where statuses.status_name = 'Finished'
+					and personal_specializations.personal_specialization_id = @id
                 order by visit_status.last_update desc";
 
                 DataTable tableCheck = new DataTable();
@@ -40,7 +43,7 @@ namespace BackEnd.Controllers
                     cmd.CommandType = CommandType.Text;
                     da.Fill(tableCheck);
                 }
-                if (tableCheck.Rows.OfType<DataRow>().Any(r => r.IsNull(tableCheck.Columns[0])))
+                if (tableCheck.Rows.OfType<DataRow>().Any(r => r.ItemArray[0].ToString() == ":бв"))
                     withTime = false;
                 #endregion
 
@@ -57,7 +60,7 @@ namespace BackEnd.Controllers
 		                where personal_specialization_id = @personalSpecializationId)
 	                and (statuses.status_name IS NULL or statuses.status_name = 'InProcess')
                     and convert(date, visits.visit_date) = convert(date, GETDATE())
-                    and visits.visit_time IS NOT NULL
+                    and visits.visit_time != ':бв'
                     order by visits.visit_time";
 
                 DataTable tableWithTime = new DataTable();
@@ -86,7 +89,7 @@ namespace BackEnd.Controllers
 		                where personal_specialization_id = @personalSpecializationId)
 	                and (statuses.status_name IS NULL or (statuses.status_name != 'Finished' and statuses.status_name != 'Terminated'))
                     and convert(date, visits.visit_date) = convert(date, GETDATE())
-                    and (visits.visit_time IS NULL)
+                    and (visits.visit_time = ':бв')
                     order by visits.visit_id";
 
                 DataTable tableWithoutTime = new DataTable();
@@ -165,7 +168,7 @@ namespace BackEnd.Controllers
                     cmd.CommandType = CommandType.Text;
                     da.Fill(table);
                 }
-                if (table.Rows.OfType<DataRow>().Any(r => r.IsNull(table.Columns[0])))
+                if (table.Rows.OfType<DataRow>().Any(r => r.ItemArray[0].ToString() == ":бв"))
                     withTime = false;
                 #endregion
 
@@ -188,7 +191,7 @@ namespace BackEnd.Controllers
 		                where personal_specialization_id = @personalSpecializationId)
 	                and (statuses.status_name IS NULL)
                     and convert(date, visits.visit_date) = convert(date, GETDATE())
-                    and visits.visit_time IS NULL
+                    and visits.visit_time = ':бв'
                     order by visits.visit_id";
 
                 using (var con = new SqlConnection(ConfigurationManager.
@@ -222,7 +225,7 @@ namespace BackEnd.Controllers
 		                where personal_specialization_id = @personalSpecializationId)
 	                and (statuses.status_name IS NULL)
                     and convert(date, visits.visit_date) = convert(date, GETDATE())
-                    and visits.visit_time IS NOT NULL
+                    and visits.visit_time != ':бв'
                     order by visits.visit_time";
 
                 using (var con = new SqlConnection(ConfigurationManager.
@@ -244,14 +247,14 @@ namespace BackEnd.Controllers
                 {
                     if (visitIdWithoutTime >= 0)
                         visitId = visitIdWithoutTime;
-                    else if (visitIdWithoutTime >= 0)
+                    else if (visitIdWithTime >= 0)
                         visitId = visitIdWithTime;
                 }
                 else
                 {
                     if (visitIdWithTime >= 0)
                         visitId = visitIdWithTime;
-                    else if (visitIdWithTime >= 0)
+                    else if (visitIdWithoutTime >= 0)
                         visitId = visitIdWithoutTime;
                 }
 

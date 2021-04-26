@@ -23,7 +23,9 @@ namespace BackEnd.Controllers
                 right join personals ON (citizens.citizen_id = personals.citizen_id)
                 left join personal_specializations ON (personals.personal_id = personal_specializations.personal_id)
                 left join specializations ON (specializations.specialization_id = personal_specializations.specialization_id)
-                left join room_personal_specialization ON(room_personal_specialization.personal_specialization_id = personal_specializations.personal_specialization_id)";
+                left join room_personal_specialization ON(room_personal_specialization.personal_specialization_id = personal_specializations.personal_specialization_id)
+                where company_id = 44849";
+
                 DataTable table = new DataTable();
                 using (var con = new SqlConnection(ConfigurationManager.
                     ConnectionStrings["test_db"].ConnectionString))
@@ -56,7 +58,8 @@ namespace BackEnd.Controllers
                 left join personal_specializations ON (personals.personal_id = personal_specializations.personal_id)
                 left join specializations ON (specializations.specialization_id = personal_specializations.specialization_id)
                 left join room_personal_specialization ON (room_personal_specialization.personal_specialization_id = personal_specializations.personal_specialization_id)
-                where citizens.citizen_name_1 like @name_1
+                where company_id = 44849
+                    and citizens.citizen_name_1 like @name_1
                     and citizens.citizen_name_2 like @name_2
                     and citizens.citizen_name_3 like @name_3";
                 DataTable table = new DataTable();

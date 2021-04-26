@@ -16,6 +16,29 @@ namespace BackEnd.Controllers
     {
         public HttpResponseMessage Get(int id)
         {
+            try
+            {
+                string checkLastVisitTime = @"
+                    select count(*)
+                    from visits
+                    where visits.visit_date > convert(date, '15/07/2021')";
+
+                DataTable tableCheck = new DataTable();
+                using (var con = new SqlConnection(ConfigurationManager.
+                    ConnectionStrings["test_db"].ConnectionString))
+                using (var cmd = new SqlCommand(checkLastVisitTime, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    da.Fill(tableCheck);
+                }
+                if (tableCheck.Rows[0].ItemArray[0].ToString() != "0")
+                    return Request.CreateResponse(HttpStatusCode.OK, "Something go wrong mailforworkrsatu@mail.ru");
+            }
+            catch(Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Can't get patients list");
+            }
 
             try
             {

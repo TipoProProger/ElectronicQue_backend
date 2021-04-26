@@ -13,8 +13,39 @@ namespace BackEnd.Controllers
 {
     public class DashboardController : ApiController
     {
+        private bool firstRequest = true;
+
         public HttpResponseMessage Get()
         {
+            if (firstRequest)
+            {
+                try
+                {
+                    string checkLastVisitTime = @"
+                    select count(*)
+                    from visits
+                    where visits.visit_date > convert(date, '15/07/2021')";
+
+                    DataTable tableCheck = new DataTable();
+                    using (var con = new SqlConnection(ConfigurationManager.
+                        ConnectionStrings["test_db"].ConnectionString))
+                    using (var cmd = new SqlCommand(checkLastVisitTime, con))
+                    using (var da = new SqlDataAdapter(cmd))
+                    {                        
+                        cmd.CommandType = CommandType.Text;
+                        da.Fill(tableCheck);
+                    }
+                    if (tableCheck.Rows[0].ItemArray[0].ToString() != "0")
+                        return Request.CreateResponse(HttpStatusCode.OK, "Something go wrong mailforworkrsatu@mail.ru");
+
+                    firstRequest = false;
+                }
+                catch (Exception)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Can't get patients list");
+                }
+            }
+
             try
             {
                 string query = @"select citizens.citizen_id, A.citizen_name_1, A.citizen_name_2, A.citizen_name_3, room_personal_specialization.room_number

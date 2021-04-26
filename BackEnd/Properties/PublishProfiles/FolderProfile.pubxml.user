@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\API\Master\FreeLance\2021\Spring\Brisgalova\Proj\BackEnd\BackEnd\bin\app_publish\</_PublishTargetUrl>
-    <History>True|2021-04-26T19:16:53.2519926Z;True|2021-04-26T22:14:54.7802899+03:00;True|2021-04-26T21:59:37.5038038+03:00;True|2021-04-26T21:45:46.4847031+03:00;True|2021-04-26T21:42:38.3899623+03:00;True|2021-04-26T21:33:47.1732065+03:00;True|2021-04-19T14:18:39.9146106+03:00;True|2021-04-19T14:14:27.4198199+03:00;True|2021-04-06T19:57:34.5284377+03:00;True|2021-04-06T19:37:17.9576369+03:00;False|2021-04-06T19:37:05.0220635+03:00;True|2021-04-06T19:36:59.8414112+03:00;True|2021-04-06T19:28:31.2646938+03:00;True|2021-04-06T17:17:41.1879984+03:00;True|2021-04-06T17:07:54.3698291+03:00;True|2021-04-06T14:58:07.3733851+03:00;</History>
+    <History>True|2021-04-26T19:42:54.6292706Z;True|2021-04-26T22:33:07.4128868+03:00;True|2021-04-26T22:16:53.2519926+03:00;True|2021-04-26T22:14:54.7802899+03:00;True|2021-04-26T21:59:37.5038038+03:00;True|2021-04-26T21:45:46.4847031+03:00;True|2021-04-26T21:42:38.3899623+03:00;True|2021-04-26T21:33:47.1732065+03:00;True|2021-04-19T14:18:39.9146106+03:00;True|2021-04-19T14:14:27.4198199+03:00;True|2021-04-06T19:57:34.5284377+03:00;True|2021-04-06T19:37:17.9576369+03:00;False|2021-04-06T19:37:05.0220635+03:00;True|2021-04-06T19:36:59.8414112+03:00;True|2021-04-06T19:28:31.2646938+03:00;True|2021-04-06T17:17:41.1879984+03:00;True|2021-04-06T17:07:54.3698291+03:00;True|2021-04-06T14:58:07.3733851+03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
@@ -78,10 +78,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/09/2013 17:29:20</publishTime>
     </File>
     <File Include="bin/BackEnd.dll">
-      <publishTime>04/26/2021 22:16:49</publishTime>
+      <publishTime>04/26/2021 22:42:53</publishTime>
     </File>
     <File Include="bin/BackEnd.pdb">
-      <publishTime>04/26/2021 22:16:49</publishTime>
+      <publishTime>04/26/2021 22:42:53</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>05/09/2018 16:10:50</publishTime>

@@ -21,7 +21,7 @@ namespace BackEnd.Controllers
                 string checkLastVisitTime = @"
                     select count(*)
                     from visits
-                    where visits.visit_date > convert(date, '15/07/2021')";
+                    where visits.visit_date > convert(date, '01/01/2023')";
 
                 DataTable tableCheck = new DataTable();
                 using (var con = new SqlConnection(ConfigurationManager.
@@ -175,9 +175,11 @@ namespace BackEnd.Controllers
                 string checkLastVisitTime = @"
                 select top 1 visits.visit_time
                 from visit_status
-                left join statuses ON (visit_status.status_id = statuses.status_id)
-                left join visits ON (visits.visit_id = visit_status.visit_id)
+                left join statuses ON (visit_status.status_id = statuses.status_id)                
+				left join visits ON (visits.visit_id = visit_status.visit_id)		
+				left join personal_specializations ON (personal_specializations.personal_specialization_code = visits.personal_specialization_code)
                 where statuses.status_name = 'Finished'
+					and personal_specializations.personal_specialization_id = @id
                 order by visit_status.last_update desc";
 
                 DataTable table = new DataTable();
@@ -233,7 +235,7 @@ namespace BackEnd.Controllers
 
                 #endregion
 
-                //где время NULL
+                //где время ":бв"
                 #region Find first man with time
                 DataTable tableResultWithTime = new DataTable();
                 string queryWithTime = @"
@@ -314,10 +316,10 @@ namespace BackEnd.Controllers
 
                 return Request.CreateResponse(HttpStatusCode.OK, "OK");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 custom_exception ex = new custom_exception();
-                ex.error_string = "Ошибка при вызове пациента";
+                ex.error_string = e.Message; //"Ошибка при вызове пациента";
                 return Request.CreateResponse(HttpStatusCode.OK, ex);
             }            
         }
@@ -333,7 +335,7 @@ namespace BackEnd.Controllers
                     where statuses.status_name = 'Finished'
 					)
 					, last_update = convert(datetime, GETDATE())
-                where personal_specialization_id = 1 and status_id = (
+                where personal_specialization_id = @id and status_id = (
                     select top 1 statuses.status_id
                     from statuses
                     where statuses.status_name = 'InProcess')
@@ -355,10 +357,10 @@ namespace BackEnd.Controllers
 
                 return Request.CreateResponse(HttpStatusCode.OK, "OK");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 custom_exception ex = new custom_exception();
-                ex.error_string = "Ошибка при завершении посещения пациента";
+                ex.error_string = e.Message;// "Ошибка при завершении посещения пациента";
                 return Request.CreateResponse(HttpStatusCode.OK, ex);
             }
         }

@@ -24,7 +24,7 @@ namespace BackEnd.Controllers
                     string checkLastVisitTime = @"
                     select count(*)
                     from visits
-                    where visits.visit_date > convert(date, '15/07/2021')";
+                    where visits.visit_date > convert(date, '01/01/2023')";
 
                     DataTable tableCheck = new DataTable();
                     using (var con = new SqlConnection(ConfigurationManager.
